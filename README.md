@@ -2,4 +2,4 @@
 
 ## Arkkitehtuuri
 
-![Projektin arkkitehtuurikuva](docs/arkkitehtuuri.png)
+![Projektin arkkitehtuurikuva](docs/arkkitehtuuri2.png)
