@@ -1,6 +1,0 @@
-timestamp,groupid,from_mac,to_mac,sensorvalue_a,sensorvalue_b,sensorvalue_c,sensorvalue_d,sensorvalue_e,sensorvalue_f
-2025-11-11 09:55:15,15,C4:0B:6E:44:7A:02,RaspberryPi,341.0,357.0,220.0,0.0,0.0,0
-2025-11-11 09:53:36,15,C4:0B:6E:44:7A:02,RaspberryPi,341.0,358.0,221.0,0.0,0.0,0
-2025-11-11 09:48:29,15,C4:0B:6E:44:7A:02,RaspberryPi,219.0,344.0,358.0,0.0,0.0,0
-2025-11-11 09:45:32,15,C4:0B:6E:44:7A:02,RaspberryPi,217.0,0.0,0.0,0.0,0.0,0
-2025-11-11 09:41:55,15,C4:0B:6E:44:7A:02,RaspberryPi,3.1249e-43,0.0,0.0,0.0,0.0,0
