@@ -269,8 +269,7 @@ Katso [LICENSE](LICENSE) lisätietoja varten.
 ## 🙏 Kiitokset
 
 - **Kurssin ohjaajat** - Ohjaus ja tekninen tuki
-- **Nordic Semiconductor** - nRF5340 Dev Kit dokumentaatio
-- **Python-yhteisö** - Erinomaiset kirjastot (requests, PyMySQL)
+- **Nordic Semiconductor** - nRF5340 Dev Kit dokumentaatio/BLE-koulutus
 
 ---
 
@@ -288,7 +287,5 @@ Kolme vaihetta suoritettu:
 <div align="center">
 
 **Tehty ❤️:llä Group 15:n toimesta**
-
-[![GitHub stars](https://img.shields.io/github/stars/TervonenN/tlprojekti2025_group15?style=social)](https://github.com/TervonenN/tlprojekti2025_group15/stargazers)
 
 </div>
