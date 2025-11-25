@@ -1,1 +1,7 @@
 WorkingADCSolution/build/
+config.py
+*.pyc
+__pycache__/
+data.csv
+*.csv
+data_mysql.csv
