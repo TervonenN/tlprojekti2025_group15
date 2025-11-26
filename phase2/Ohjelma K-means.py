@@ -94,19 +94,6 @@ np_data = np.array(data_points) #laitoin kaiken kerätyn datan np_data nimiseen 
 print("minimiarvo: ", np.min(np_data)) # 1154
 print("maksimiarvo: ", np.max(np_data)) # 1829
 
-'''
-random_data = []
-
-random_x = np.random.randint(np.min(np_data), np.max(np_data) +1, size = 6)
-random_y = np.random.randint(np.min(np_data), np.max(np_data) +1, size = 6)
-random_z = np.random.randint(np.min(np_data), np.max(np_data) +1, size = 6)
-
-random_data = np.stack((random_x, random_y, random_z), axis=1)
-random_data = random_data.astype(float) # sentroidit liukuluvuiksi
-print("randomit: \n", random_data)
-'''
-
-
 
 #############
 ## RULETTI ##
@@ -143,6 +130,23 @@ for OverKill in range(OK_rounds):
     max_rounds = 100
     current_centroids = random_data.copy() # siirretään randomit currenteiksi niin saadaan ne mukavasti käyttöön
    
+    '''
+    x = np.array(data_points)
+    y = current_centroids
+
+    fig = plt.figure()
+    ax = fig.add_subplot(111, projection='3d')
+
+    ax.scatter(x[:,0], x[:,1], x[:,2],marker = 'o', s=5, color='red')
+    ax.scatter(y[:,0], y[:,1], y[:,2],marker='X', s=300, c='blue', label='Sentroidit')
+
+    # Akselien nimet
+    ax.set_xlabel('X-akseli')
+    ax.set_ylabel('Y-akseli')
+    ax.set_zlabel('Z-akseli')
+
+    plt.show()    
+    '''
         
     for rounds in range(max_rounds):
         print("kierrokset ekalla: ", rounds+1)
@@ -151,24 +155,6 @@ for OverKill in range(OK_rounds):
         clusters = []
         old_centroids = current_centroids.copy() #siirrellään tän avulla centroideja lähemmäksi kohdetta
 
-        '''
-        x = np.array(data_points)
-        y = current_centroids
-
-        fig = plt.figure()
-        ax = fig.add_subplot(111, projection='3d')
-
-        ax.scatter(x[:,0], x[:,1], x[:,2],marker = 'o', s=5, color='red')
-        ax.scatter(y[:,0], y[:,1], y[:,2],marker='X', s=300, c='blue', label='Sentroidit')
-
-        # Akselien nimet
-        ax.set_xlabel('X-akseli')
-        ax.set_ylabel('Y-akseli')
-        ax.set_zlabel('Z-akseli')
-
-        plt.show()    
-        '''
-        
         
         for data_point_index, D_centroid_point in enumerate(np_data):
             
