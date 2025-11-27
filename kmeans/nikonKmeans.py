@@ -40,16 +40,55 @@ def read_data(file_path):
     # palautetaan data numpy-taulukkona
     return np.array(data)
 
+# TÄSSÄ NYT NIKON YLIMÄÄRÄISTÄ VÄRKKÄILYÄ..testataan merin overkilliä vastaan
+# tarkoituksena parantaa aloituskeskipisteiden valintaa kmeans++ menetelmällä jota scikit käyttää
+def kmeansplusplus(data, n_clusters):
+    n_samples = data.shape[0]
+    centroids = [] # kerätään tähän valitut centroidit
+
+    # STEP 1: Valitaan ensimmäinen centroidi satunnaisesti
+    print("Kmeans++..valitaan random ensimmäinen centroid")
+    first_idx = np.random.randint(0, n_samples)
+    centroids.append(data[first_idx].copy())
+    print(f" Ensimmäiseksi centroidiks valikoitui: {first_idx}: {data[first_idx]}")
+
+    # STEP 2: Tästä alaspäin taikaa tapahtuu
+    for c in range(1, n_clusters):
+        print(f"Kmeans++ valitaan centroidi {c+1}/{n_clusters}")
+
+        # Lasketaan jokaisen pisteen etäisyys lähimpään centroidiin
+        distances = np.zeros(n_samples)
+        for i in range(n_samples):
+            point = data[i]
+            min_distance = float('inf')
+            for centroid in centroids:
+                dist = calculate_distance(point, centroid)
+                if dist < min_distance:
+                    min_distance = dist # päivitetään pienin etäisyys
+            distances[i] = min_distance
+
+            # STEP 3: Lasketaan todennäköisyydet: mitä kauempana piste on sitä todennäköisemmin valitaan
+        probabilities = distances ** 2
+        probabilities = probabilities / probabilities.sum()
+
+            # STEP 4: Käytetään noita laskettuja todennäköisyyksiä uuden centroidin valintaan
+        next_idx = np.random.choice(n_samples, p=probabilities)
+        centroids.append(data[next_idx].copy())
+        print(f"Valittu piste {next_idx}: {data[next_idx]}")
+        print(f"Etäisyys lähimpään centroidiin: {distances[next_idx]:.1f}")
+    return np.array(centroids)
+
+
 # Vaihe 3: Toteutetaan K-means algoritmi
 def kmeans(data, n_clusters=N_CLUSTERS, max_iterations=MAX_ITERATIONS, tolerance=TOLERANCE):
     numberOfRows = data.shape[0] # <- ulompi for luuppi kiertää 
    # alustus: satunnainen aloitus (arvotaan 6 keskipistettä datasta)
-    random_indices = np.random.choice(numberOfRows, n_clusters, replace=False)
+    centroids = kmeansplusplus(data, n_clusters)
 # Alustetaan satunnaiset aloituskeskipisteet
 # Valitaan 6 satunnaista riviä datasta klusterien aloituspisteiksi
 # replace=False varmistaa ettei sama rivi tule kahdesti
 # Määritetään keskipisteet (centroids) satunnaisten pisteiden arvoihin
-    centroids = data[random_indices].copy()
+    
 
     # PÄÄLUUPPI JOTA TOISTETAAN KUNNES VAKAA!
     for iteration in range(MAX_ITERATIONS):
