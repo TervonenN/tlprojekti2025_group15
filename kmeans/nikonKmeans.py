@@ -1,18 +1,22 @@
-# Vaihe 1 : Tarvittavat kirjastot ja alkuasetukset
+#  Tarvittavat kirjastot ja alkuasetukset
 import numpy as np # käytetään tätä matemaattisiin operaatioihin ja taulukoiden käsittelyyn
 from numpy.linalg import norm  # Euklidisen etäisyyden laskentaan
-import re # Lausekkeiden käsittelyyn?
+import matplotlib.pyplot as plt # Visualisointiin
+from mpl_toolkits.mplot3d import Axes3D # 3D kuvia varten
+import re # Lausekkeiden käsittelyyn
 import sys # järjestelmätoiminnot
 
 # Määritykset alla
 FILE_NAME = "oikea_data.csv" # Tiedoston nimi, josta data haetaan
 N_CLUSTERS = 6 # K-arvo = Klustereiden lukumäärä, joka tässä tarkoittaa yhtä suuntaa/asentoa joita meillä 6
 MAX_ITERATIONS = 100 # Maksimi kierrosten määrä (iterointien määrä)
-TOLERANCE = 1.0 # Lopetusehto, keskipisteet lopettaa siirtymisen kun liike on alle 1.0
+TOLERANCE = 0.01 # Lopetusehto, keskipisteet lopettaa siirtymisen kun liike on alle 1.0
 # eli kun kun klusterit ovat vakiintuneet eivätkä enää juuri muutu
 # Säästää laskenta-aikaa turhien kierrosten välttämiseksi
 
-# Vaihe 2 : Datan lukeminen
+def calculate_distance(p1, p2):
+    # laskee euklidisen etäisyyden kahden pisteen (mittaus vs keskipiste) välillä
+    return np.linalg.norm(p1 - p2)
 
 # Lukee ADC-mittausdatan (X Y Z) CSV-tiedostosta ja palauttaa sen NumPy-taulukkona
 def read_data(file_path):
@@ -33,21 +37,96 @@ def read_data(file_path):
         print(f"\nVirhe: Tiedostoa '{file_path}' ei löytynyt. Varmista että tiedosto on samassa kansiossa!")
         return None
     print(f"Dataa löytyi {len(data)} riviä")
+    # palautetaan data numpy-taulukkona
     return np.array(data)
 
 # Vaihe 3: Toteutetaan K-means algoritmi
-def kmeans(data, n_clusters, max_iterations, tolerance):
+def kmeans(data, n_clusters=N_CLUSTERS, max_iterations=MAX_ITERATIONS, tolerance=TOLERANCE):
+    numberOfRows = data.shape[0] # <- ulompi for luuppi kiertää 
+   # alustus: satunnainen aloitus (arvotaan 6 keskipistettä datasta)
+    random_indices = np.random.choice(numberOfRows, n_clusters, replace=False)
+# Alustetaan satunnaiset aloituskeskipisteet
+# Valitaan 6 satunnaista riviä datasta klusterien aloituspisteiksi
+# replace=False varmistaa ettei sama rivi tule kahdesti
+# Määritetään keskipisteet (centroids) satunnaisten pisteiden arvoihin
+    centroids = data[random_indices].copy()
+
+    # PÄÄLUUPPI JOTA TOISTETAAN KUNNES VAKAA!
+    for iteration in range(MAX_ITERATIONS):
+        # Tähän muuttujaan summataan pisteiden arvot
+        centerPointCumulativeSum = np.zeros((N_CLUSTERS, 3))
+        # Kasvatetaan datapisteiden lukumäärää yhdellä
+        counts = np.zeros(N_CLUSTERS, dtype=int)
+        labels = np.zeros(numberOfRows, dtype=int)
+        # Koko opetusdata käydään läpi
+        # käsittelee jokaisen mittauspisteen (numberOfRows!)
+        for i in range(numberOfRows):
+            point = data[i]
+            distances = np.zeros(N_CLUSTERS)
+            # Lasketaan etäisyydet kaikkiin 6 keskipisteeseen
+            for j in range(N_CLUSTERS):
+                distances[j] = calculate_distance(point, centroids[j])
+            
+            # Selvitetään minkä keskipisteen etäisyys oli pienin
+            nearest_cluster = np.argmin(distances) # palauttaa pienimmän etäisyyden indeksin
+            labels[i] = nearest_cluster
+            # päivitetään klusterin summapisteet ja laskuri
+            centerPointCumulativeSum[nearest_cluster] += point
+            # kasvatetaan laskuria yhdellä
+            counts[nearest_cluster] += 1
+
+            # Keskipisteiden päivitys
+        new_centroids = np.zeros_like(centroids) # uusi taulukko päivitetyille arvoille
+
+        for j in range(N_CLUSTERS):
+            if counts[j] > 0:
+                    # keskiarvo = summa / määrä = päivittyvä keskipiste
+                new_centroids[j] = centerPointCumulativeSum[j] / counts[j]
+            else:
+                    # jos tyhjä klusteri, asetetaan satunnainen piste
+                new_centroids[j] = data[np.random.choice(numberOfRows)]
+            # Tässä tarkistetaan onko keskipisteiden liike alle toleranssin
+            # eli "Euklidinen etäisyys", jos siirtymä on pientä = oppiminen vakaata
+        movement = np.linalg.norm(new_centroids - centroids)
+        centroids = new_centroids # päivitetään keskipisteet
+            #return centroids, labels
+        print(f"Iteraatio {iteration + 1}/{max_iterations}")
+        print(f" Käsitelty {numberOfRows} pistettä")
+        print(f" Klusterit: {counts}")
+        print(f" Liike: {movement:.2f}")
+
+        if movement < tolerance:
+            print(f"Vakiintunut iteraatiolla {iteration + 1}")
+            break
     
-    n_samples, n_features = data.shape # n_samples = rivien määrä, n_features = sarakkeiden määrä eli 3
+    return centroids, labels
+# 3D-visualisointi
+def visualize_3d_result(data, centroids, labels):
+    fig = plt.figure(figsize=(10, 8))
+    ax = fig.add_subplot(111, projection='3d')
 
-    # Alustetaan satunnaiset aloituskeskipisteet (centroids?)
-    # Valitaan 6 satunnaista riviä datasta klusterien aloituspisteiksi
-    # replace=False varmistaa ettei sama rivi tule kahdesti
-    random_indices = np.random.choice(n_samples, n_clusters, replace=False) 
-    # Määritetään keskipisteet (centroids) satunnaisten pisteiden arvoihin
+    # Piirretään datapisteet klusterin värillä
+    ax.scatter(data[:,0], data[:,1], data[:,2], c=labels, cmap='rainbow', alpha=0.6, s=10)
 
-if __name__ == "__main__":
+    # Piirretään keskipisteet (centroids) isoilla punasilla rasteilla
+    ax.scatter(centroids[:,0], centroids[:,1], centroids[:,2], c='red', marker='X', s=200, label='Keskipisteet')
+
+    ax.set_xlabel('X')
+    ax.set_ylabel('Y')
+    ax.set_zlabel('Z')
+    ax.set_title('K-means Klusterointi 3D-visualisointi')
+    ax.legend()
+    plt.show()
+
+if __name__ == "__main__": 
     # luetaan data
     data = read_data(FILE_NAME)
     if data is None:
-        sys.exit(1) # lopetetetaan jos ei löydy (ja sitähän löytyi :D)
+        sys.exit(1) # lopetetetaan jos ei löydy
+
+    if data is not None:
+        # Opetusdata löytyy, suoritetaan K-means
+        final_centroids, labels = kmeans(data)
+
+        # visualisoidaan tulokset 3D-kuvana
+        visualize_3d_result(data, final_centroids, labels)
