@@ -76,6 +76,7 @@ def kmeansplusplus(data, n_clusters):
         centroids.append(data[next_idx].copy())
         print(f"Valittu piste {next_idx}: {data[next_idx]}")
         print(f"Etäisyys lähimpään centroidiin: {distances[next_idx]:.1f}")
+    
     return np.array(centroids)
 
 
@@ -139,6 +140,25 @@ def kmeans(data, n_clusters=N_CLUSTERS, max_iterations=MAX_ITERATIONS, tolerance
             break
     
     return centroids, labels
+
+def save_to_header(centroids, filename="keskipisteet.h"):
+    with open(filename, 'w') as f:
+        f.write("// Keskipisteet K-means klusteroinnista\n")  
+        f. write("#ifndef KESKIPISTEET_H\n")                   
+        f.write("#define KESKIPISTEET_H\n\n")                
+        f.write(f"int CP[{N_CLUSTERS}][3] = {{\n")            
+
+        for i, centroid in enumerate(centroids):
+            x, y, z = [int(round(coord)) for coord in centroid]
+            f.write(f"    {{{x}, {y}, {z}}}")                 
+            if i < len(centroids) - 1:
+                f.write(",")
+            f.write(f" // Keskipiste {i+1}\n")
+        
+        f.write("};\n\n")                                      
+        f.write("#endif // KESKIPISTEET_H\n")                
+    
+    print(f"Keskipisteet tallennettu tiedostoon: {filename}")
 # 3D-visualisointi
 def visualize_3d_result(data, centroids, labels):
     fig = plt.figure(figsize=(10, 8))
@@ -169,3 +189,6 @@ if __name__ == "__main__":
 
         # visualisoidaan tulokset 3D-kuvana
         visualize_3d_result(data, final_centroids, labels)
+
+        # tallennetaan keskipisteet headeriin
+        save_to_header(final_centroids)
