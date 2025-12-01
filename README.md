@@ -46,7 +46,7 @@ Tämä projekti on toteutettu osana tietoliikenteen sovellusprojekti-kurssia 202
 - **Raspberry Pi v3**: BLE-vastaanotin, data-uploader OAMKin MySQL-tietokantaan
 - **Linux Server (Ubuntu)**: Apache, PHP, oman datan näyttö
 - **Client Laptop (Windows)**: Python-clientit, Wireshark, SSH
-- **OAMK DB -palvelin (172.20.241.9): MySQL-tietokanta + HTTP- ja TCP-rajapinnat
+- **OAMK DB -palvelin (172.20.241.9)**: MySQL-tietokanta + HTTP- ja TCP-rajapinnat
 
 #### 📡 Protokollat
 
