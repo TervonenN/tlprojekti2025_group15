@@ -1,6 +1,6 @@
 # Tietoliikenneprojekti 2025 - Group 15
 
-> IoT-sensoridatan keräys, tallennus ja haku useilla protokollilla
+> IoT-sensoridatan keräys, tallennus ja haku - nRF5340 DK, Raspberry & Linux/MySQL
 
 [![Python](https://img.shields.io/badge/Python-3.12-blue.svg)](https://www.python.org/)
 [![License](https://img.shields.io/badge/License-MIT-green.svg)](LICENSE)
@@ -27,10 +27,10 @@ Tämä projekti on toteutettu osana tietoliikenteen sovellusprojekti-kurssia 202
 
 1. **BLE-sensoridata**: nRF5340 Dev Kit → Raspberry Pi
 2. **MySQL-tietokanta**: Datan tallennus ja hallinta
-3. **HTTP REST API**: JSON/CSV-muotoinen data
+3. **HTTP API**: Yksinkertaiset PHP-skriptit datan lukemiseen (CSV)
 4. **Python-asiakasohjelmat**: Kolme eri tapaa hakea data
 5. **Verkkoanalyysi**: Wireshark-pakettikaappaukset
-6. **Machine Learning**: Datan analysointi ja ennustaminen *(tuleva vaihe)*
+6. **Machine Learning**: Datan analysointi ja ennustaminen
 
 ---
 
@@ -43,9 +43,10 @@ Tämä projekti on toteutettu osana tietoliikenteen sovellusprojekti-kurssia 202
 #### 🔧 Laitteet ja palvelimet
 
 - **nRF5340 Dev Kit**: BLE-sensori joka lähettää mittausdataa
-- **Raspberry Pi v3**: BLE-vastaanotin, data logger, MySQL-tietokanta
-- **Linux Server (Ubuntu)**: Apache web server, MySQL, API-endpointit
-- **Client Laptop (Windows)**: Python-asiakasohjelmat, Wireshark-analyysi
+- **Raspberry Pi v3**: BLE-vastaanotin, data-uploader OAMKin MySQL-tietokantaan
+- **Linux Server (Ubuntu)**: Apache, PHP, oman datan näyttö
+- **Client Laptop (Windows)**: Python-clientit, Wireshark, SSH
+- **OAMK DB -palvelin (172.20.241.9): MySQL-tietokanta + HTTP- ja TCP-rajapinnat
 
 #### 📡 Protokollat
 
@@ -54,6 +55,7 @@ Tämä projekti on toteutettu osana tietoliikenteen sovellusprojekti-kurssia 202
 | **BLE** | - | Sensoridata nRF5340 → Raspberry Pi |
 | **HTTP** | 80 | REST API JSON/CSV-datan hakemiseen |
 | **MySQL** | 3306 | Suora tietokantayhteys |
+| **TCP Socket** | 20000  | Raw API |
 | **SSH** | 22 | Palvelimen etähallinta |
 
 ---
@@ -88,7 +90,7 @@ Tämä projekti on toteutettu osana tietoliikenteen sovellusprojekti-kurssia 202
 
 ### Backend
 
-- **Python 3.1.**: Asiakasohjelmat ja data-analyysit
+- **Python 3.x.x**: Asiakasohjelmat ja data-analyysit
 - **MySQL**: Relaaatiotietokanta
 - **Apache 2**: Web server
 - **PHP 8.x**: REST API backend
@@ -124,6 +126,40 @@ Projekti sisältää verkkoliikenteen analyysin Wiresharkilla.
    tcp.port == 3306
    mysql
    ```
+
+   ### Verkkoanalyysi
+
+**Wireshark-suodattimet:**
+
+```
+# TCP 3-way handshake
+tcp.flags.syn == 1
+
+# HTTP-liikenne
+tcp.port == 80 && http
+
+# MySQL-liikenne
+tcp.port == 3306 && mysql
+
+# Socket API
+tcp.port == 20000
+```
+
+---
+
+## 🐛 Tunnetut ongelmat ja rajoitukset
+
+### HTTP API
+- ⚠️ Ei autentikointia (kuka tahansa voi hakea dataa)
+- ⚠️ Ei HTTPS-tukea (salaamaton liikenne)
+
+### MySQL
+- ⚠️ Salasana plaintext config-tiedostossa
+- ⚠️ Ei SSL-yhteyttä
+
+### Socket API
+- ⚠️ Toimii vain palvelimen localhost:ista
+- ⚠️ Ei virheenkäsittelyä protokollatasolla
 
 ---
 
