@@ -243,44 +243,6 @@ Projekti toteutettiin kolmessa vaiheessa:
 
 ---
 
-## 🧪 Testaus
-
-### Verkkoanalyysi
-
-**Wireshark-suodattimet:**
-
-```
-# TCP 3-way handshake
-tcp.flags.syn == 1
-
-# HTTP-liikenne
-tcp.port == 80 && http
-
-# MySQL-liikenne
-tcp.port == 3306 && mysql
-
-# Socket API
-tcp.port == 20000
-```
-
----
-
-## 🐛 Tunnetut ongelmat ja rajoitukset
-
-### HTTP API
-- ⚠️ Ei autentikointia (kuka tahansa voi hakea dataa)
-- ⚠️ Ei HTTPS-tukea (salaamaton liikenne)
-
-### MySQL
-- ⚠️ Salasana plaintext config-tiedostossa
-- ⚠️ Ei SSL-yhteyttä
-
-### Socket API
-- ⚠️ Toimii vain palvelimen localhost:ista
-- ⚠️ Ei virheenkäsittelyä protokollatasolla
-
----
-
 ## 👥 Tiimi
 
 **Group 15**
