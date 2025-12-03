@@ -10,7 +10,7 @@ import sys # järjestelmätoiminnot
 FILE_NAME = "oikea_data.csv" # Tiedoston nimi, josta data haetaan
 N_CLUSTERS = 6 # K-arvo = Klustereiden lukumäärä, joka tässä tarkoittaa yhtä suuntaa/asentoa joita meillä 6
 MAX_ITERATIONS = 100 # Maksimi kierrosten määrä (iterointien määrä)
-TOLERANCE = 0.01 # Lopetusehto, keskipisteet lopettaa siirtymisen kun liike on alle 1.0
+TOLERANCE = 0.01 # Lopetusehto, keskipisteet lopettaa siirtymisen kun liike on alle 0.01
 # eli kun kun klusterit ovat vakiintuneet eivätkä enää juuri muutu
 # Säästää laskenta-aikaa turhien kierrosten välttämiseksi
 
@@ -40,8 +40,8 @@ def read_data(file_path):
     # palautetaan data numpy-taulukkona
     return np.array(data)
 
-# TÄSSÄ NYT NIKON YLIMÄÄRÄISTÄ VÄRKKÄILYÄ..testataan merin overkilliä vastaan
-# tarkoituksena parantaa aloituskeskipisteiden valintaa kmeans++ menetelmällä jota scikit käyttää
+# TÄSSÄ NYT NIKON "YLIMÄÄRÄISTÄ" VÄRKKÄILYÄ..testataan merin overkilliä vastaan
+# tarkoituksena parantaa aloituskeskipisteiden valintaa kmeans++ menetelmällä jota scikit käyttää ilmeisesti automaationa
 def kmeansplusplus(data, n_clusters):
     n_samples = data.shape[0]
     centroids = [] # kerätään tähän valitut centroidit
