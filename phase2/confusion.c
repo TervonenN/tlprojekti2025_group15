@@ -40,6 +40,7 @@ int measurements[6][3]={
 
 int CM[6][6]= {0};
 
+int clusterToClass[6] = {0, 3, 5, 4, 2, 1}; 
 
 
 void printConfusionMatrix(void)
@@ -57,12 +58,12 @@ void makeHundredFakeClassifications(void)
    printk("testi 1\n");
 
    float testidata [6][3]={
-      {1500,1200,1500},
-      {1500,1500,1800},
       {1500,1500,1200},
-      {1500,1800,1500},
+      {1200,1500,1500},
+      {1500,1200,1500},
       {1800,1500,1500},
-      {1200,1500,1500}
+      {1500,1800,1500},
+      {1500,1500,1800}
    };
 
    for(int a = 0; a<6; a++)
@@ -82,25 +83,29 @@ void makeHundredFakeClassifications(void)
    printk("Make your own implementation for this function if you need this\n");
 }
 
-void makeOneClassificationAndUpdateConfusionMatrix(int direction)
+void makeOneClassificationAndUpdateConfusionMatrix(int *direction)
 {
    /**************************************
    Tee toteutus tälle ja voit tietysti muuttaa tämän aliohjelman sellaiseksi,
    että se tekee esim 100 kpl mittauksia tai sitten niin, että tätä funktiota
    kutsutaan 100 kertaa yhden mittauksen ja sen luokittelun tekemiseksi.
    **************************************/
-  
+
   struct Measurement m = readADCValue();
-  printk("Mitattu arvo: x=%d, y=%d, z=%d (true dir=%d)\n", m.x, m.y, m.z, direction);
+  printk("Mitattu arvo: x=%d, y=%d, z=%d (true dir=%d)\n", m.x, m.y, m.z, *direction);
 
   int predicted = calculateDistanceToAllCentrePointsAndSelectWinner(m.x, m.y, m.z);
 
-  CM[direction][predicted]++;
+  CM[*direction][predicted]++;
+  
 
-  printk("True=%d, Predicted=%d -- CM[%d][%d]++\n", direction, predicted, direction, predicted);
+  printk("True=%d, Predicted=%d -- CM[%d][%d]++\n", predicted,*direction, predicted, *direction);
+   
+   if (predicted!=*direction){
+   *direction=predicted;
+   printk("AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA");
+   }
 
-
-   printk("Make your own implementation for this function if you need this\n");
 }
 
 int calculateDistanceToAllCentrePointsAndSelectWinner(int x,int y,int z)
@@ -114,6 +119,7 @@ int calculateDistanceToAllCentrePointsAndSelectWinner(int x,int y,int z)
 
    float maxEtaisyys = 100000.0f; // numpyssä käytin maximiraja-arvoa inf tilalta.
    int parasTulos = 0;
+   
 
    for (int i = 0; i<6; i++)
    {
@@ -121,13 +127,15 @@ int calculateDistanceToAllCentrePointsAndSelectWinner(int x,int y,int z)
       float dy = CENTROIDS[i][1] -y;
       float dz = CENTROIDS[i][2] -z;
 
-      float etaisyys = sqrtf(dx*dx + dy*dy + dz*dz);
+      float etaisyys = dx*dx + dy*dy + dz*dz;
 
       if (etaisyys < maxEtaisyys){
          maxEtaisyys = etaisyys;
          parasTulos = i;
       }
    }
+
+
    return parasTulos;
   
 

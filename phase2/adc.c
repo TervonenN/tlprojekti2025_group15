@@ -65,71 +65,46 @@ int initializeADC(void)
 
 struct Measurement readADCValue(void)
 {
-	int16_t buf;
+    int16_t buf;
     struct Measurement m;
     struct adc_sequence sequence = {
-	  .buffer = &buf,
-
-	  .buffer_size = sizeof(buf),
+        .buffer = &buf,
+        .buffer_size = sizeof(buf),
     };
 
-    printk("ADC reading:\n");
-	for (size_t i = 0U; i < ARRAY_SIZE(adc_channels); i++) 
+    // printk("ADC reading:\n");  // ← Kommentoi pois (spämmi)
+    
+    for (size_t i = 0U; i < ARRAY_SIZE(adc_channels); i++) 
     {
-		int err;
+        int err;
         int32_t val_mv;
-        // For debug use... 
-		/*
-        printk("- %s, channel %d: ",
-		       adc_channels[i].dev->name,
-		       adc_channels[i].channel_id);
-        */
+        
+        (void)adc_sequence_init_dt(&adc_channels[i], &sequence);
 
-		(void)adc_sequence_init_dt(&adc_channels[i], &sequence);
-
-		err = adc_read(adc_channels[i].dev, &sequence);
-		if (err < 0) {
-			printk("Could not read (%d)\n", err);
-			continue;
-		} else {
-            if(i==0)
-            {
-                m.x = val_mv;
-            }
-            else if (i==1)
-            {
-               m.y = val_mv;
-            }
-            else if (i==2)
-            {
-                m.z = val_mv;
-            }           
-			//printk("%"PRId16, buf);
-		}
-
-		
-		val_mv = buf;
-		err = adc_raw_to_millivolts_dt(&adc_channels[i],&val_mv);
-		if (err < 0) 
-        {
-			printk(" (value in mV not available)\n");
-		} 
-        else 
-        {
-			if(i==0)
-            {
-                m.x = val_mv;
-            }
-            else if (i==1)
-            {
-               m.y = val_mv;
-            }
-            else if (i==2)
-            {
-                m.z = val_mv;
-            }           
-            //printk(" = %"PRId32" mV\n", val_mv);
-		}
-	}
+        err = adc_read(adc_channels[i].dev, &sequence);
+        if (err < 0) {
+            printk("Could not read (%d)\n", err);
+            continue;
+        }
+        
+        // KORJAUS: Käsittele buf HETI
+        val_mv = buf;
+        err = adc_raw_to_millivolts_dt(&adc_channels[i], &val_mv);
+        
+        if (err < 0) {
+            printk("(value in mV not available)\n");
+            val_mv = 0;  // Fallback
+        }
+        
+        // Tallenna VASTA kun val_mv on oikea
+        if (i == 0) {
+            m.x = (int16_t)val_mv;
+        } else if (i == 1) {
+            m.y = (int16_t)val_mv;
+        } else if (i == 2) {
+            m.z = (int16_t)val_mv;
+        }
+    }
+    
     return m;
 }

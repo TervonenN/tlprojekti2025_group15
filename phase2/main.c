@@ -101,7 +101,12 @@ static void button_changed(uint32_t button_state, uint32_t has_changed)
 	if ((has_changed & USER_BUTTON_4) && (button_state & USER_BUTTON_4)) 
 	{
 		printk("button 4 down, one meas and classification with current direction =%d\n",direction);
-		makeOneClassificationAndUpdateConfusionMatrix(direction);
+		for (int i=0; i<100; i++){ 
+			makeOneClassificationAndUpdateConfusionMatrix(&direction);
+			k_sleep(K_MSEC(100));
+
+
+		}
 		printConfusionMatrix();
 	}		
 }
