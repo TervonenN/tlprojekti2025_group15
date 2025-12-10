@@ -12,25 +12,36 @@ def read_data(file_path):
                 data.append([float(x) for x in match. groups()])
     return np.array(data)
 
-def kmeans_plus_init(data, k):
+def kmeans_plus(data, k):
+    # ensimmäinen satunnaisesti valittu keskipiste
     centroids = [data[np.random.randint(len(data))]]
+    # loput keskipisteet
     for _ in range(1, k):
         dist = np.array([min([np.linalg.norm(x-c)**2 for c in centroids]) for x in data])
         centroids.append(data[np. random.choice(len(data), p=dist/dist.sum())])
     return np.array(centroids)
 
+# PÄÄALGORITMI
 def kmeans(data, k=6):
-    centroids = kmeans_plus_init(data, k)
+    # ALUSTUS
+    centroids = kmeans_plus(data, k)
     
     for _ in range(50):
-        # pisteiden luokitus
-        labels = np.array([np.argmin([np. linalg.norm(point-c) for c in centroids]) for point in data])
+        # pisteiden luokitus, lähin keskipiste 
+        labels = np.array([
+            np.argmin([np. linalg.norm(point-c) for c in centroids]) 
+            for point in data])
         
-        # keskipisteiden päivitys
-        new_centroids = np.array([data[labels==i].mean(axis=0) if np.sum(labels==i)>0 else centroids[i] for i in range(k)])
-        
+        # Keskipisteiden päivitys pisteiden (klusterista) keskiarvolla
+        new_centroids = np.array(
+            [data[labels==i].mean(axis=0) 
+             if np.sum(labels==i)>0 
+             else centroids[i] 
+             for i in range(k)])
+        # Tarkistus onko keskipisteet vakiintunut
         if np.allclose(centroids, new_centroids, atol=0.1):
             break
+        # Keskipisteiden päivitys
         centroids = new_centroids
     
     return centroids, labels
