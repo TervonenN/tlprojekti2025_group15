@@ -98,13 +98,14 @@ void makeOneClassificationAndUpdateConfusionMatrix(int *direction)
 
   CM[*direction][predicted]++;
   
-
-  printk("True=%d, Predicted=%d -- CM[%d][%d]++\n", predicted,*direction, predicted, *direction);
-   
-   if (predicted!=*direction){
+    if (predicted!=*direction){
    *direction=predicted;
-   printk("AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA");
+   printk("AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA\n");
    }
+
+  printk("True=%d, Predicted=%d -- CM[%d][%d]++\n", *direction, predicted, *direction, predicted );
+   
+ 
 
 }
 
