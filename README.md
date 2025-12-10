@@ -1,4 +1,4 @@
-# Tietoliikenneprojekti 2025 - Group 15
+# Tietoliikenteen sovellusprojekti 2025 / Ryhmä 15
 
 > IoT-sensoridatan keräys, tallennus ja haku - nRF5340 DK, Raspberry & Linux/MySQL
 
@@ -19,18 +19,15 @@
 
 ## 🎯 Yleiskatsaus
 
-Tämä projekti on toteutettu osana tietoliikenteen sovellusprojekti-kurssia 2025. Projektin tavoitteena on kerätä sensoridata IoT-laitteesta (nRF5340 Dev Kit) Bluetooth Low Energy (BLE) -protokollalla, tallentaa se MySQL-tietokantaan ja tarjota data useilla eri protokollilla.
+Tämä projekti on toteutettu osana Oulun ammattikorkeakoulun **Tietoliikenteen sovellusprojekti-kurssia** syksyllä 2025. Projekti yhdistää IoT-laitteet, langattoman tiedonsiirron, tietokantahallinnan ja koneoppimisen kokonaisuudeksi, joka havaitsee ja luokittelee laitteen suuntaa kiihtyvysanturidatan perusteella
 
-**Kerättyä dataa hyödynnetään lopulta Machine Learning -mallien kouluttamiseen** sensoriarvojen analyysiin, ennustamiseen ja poikkeavuuksien havaitsemiseen.
-
-### Projektin pääkomponentit
-
-1. **BLE-sensoridata**: nRF5340 Dev Kit → Raspberry Pi
-2. **MySQL-tietokanta**: Datan tallennus ja hallinta
-3. **HTTP API**: Yksinkertaiset PHP-skriptit datan lukemiseen (CSV)
-4. **Python-asiakasohjelmat**: Kolme eri tapaa hakea data
-5. **Verkkoanalyysi**: Wireshark-pakettikaappaukset
-6. **Machine Learning**: Datan analysointi ja ennustaminen
+### 🎯 Projektin Tavoitteet
+Projektin päätavoitteena on rakentaa toimiva IoT-järjestelmä, jossa:
+- **NRF5340 Development Kit** - mikrokontrolleri mittaa kiihtyvyysanturidataa
+- Data välitetään **Bluetooth Low Energy (BLE)** - yhteydellä Raspberry Pi:lle.
+- Raspberry Pi tallentaa datan **MYSQL-tietokantaan**
+- **K-means-koneoppimisalgoritmi** opetetaan luokittelemaan laitteen suunta
+- Opetettu malli siirretään takaisin mikrokontrollerille reaaliaikaiseen päättelyyn (Confusion Matrix)
 
 ---
 
@@ -40,206 +37,104 @@ Tämä projekti on toteutettu osana tietoliikenteen sovellusprojekti-kurssia 202
 
 ### Komponentit
 
-#### 🔧 Laitteet ja palvelimet
+## 🔧 Teknologiat ja Työkalut
 
-- **nRF5340 Dev Kit**: BLE-sensori joka lähettää mittausdataa
-- **Raspberry Pi v3**: BLE-vastaanotin, data-uploader OAMKin MySQL-tietokantaan
-- **Linux Server (Ubuntu)**: Apache, PHP, oman datan näyttö
-- **Client Laptop (Windows)**: Python-clientit, Wireshark, SSH
-- **OAMK DB -palvelin (172.20.241.9)**: MySQL-tietokanta + HTTP- ja TCP-rajapinnat
+### Laitteisto
+- **nRF5340 Development Kit**: Nordic Semiconductorin kehitysalusta
+- **Raspberry Pi v3**: IoT-reititin ja BLE-väylä
+- **Ubuntu Linux -palvelin**: Web-palvelin ja sovellusrajapinnat
+- **Kiihtyvyysanturi**: 3-akselinen anturi (x, y, z -mittaukset)
 
-#### 📡 Protokollat
+### Ohjelmistot ja Protokollat
+- **Zephyr RTOS** - Mikrokontrollerin käyttöjärjestelmä
+- **Bluetooth Low Energy (BLE)** - Langaton tiedonsiirto
+- **Python 3.x** - Datan käsittely ja koneoppiminen
+  - `mysql-connector-python` - Tietokantayhteys
+  - `numpy` - Matriisioperaatiot ja K-means-algoritmi
+  - `matplotlib` - Visualisointi
+- **MySQL** - Relaatiotietokannat
+- **Apache + PHP** - Web-palvelin ja HTTP-rajapinnat
+- **GitHub** - Versionhallinta ja projektin dokumentointi
 
-| Protokolla | Portti | Käyttötarkoitus |
-|------------|--------|-----------------|
-| **BLE** | - | Sensoridata nRF5340 → Raspberry Pi |
-| **HTTP** | 80 | REST API JSON/CSV-datan hakemiseen |
-| **MySQL** | 3306 | Suora tietokantayhteys |
-| **TCP Socket** | 20000  | Raw API |
-| **SSH** | 22 | Palvelimen etähallinta |
-
+### Kehitystyökalut
+- **Visual Studio Code** - Pääasiallinen kehitysympäristö
+- **nRF Connect** - BLE-yhteyksien testaus ja debuggaus
+- **Wireshark & tcpdump** - Verkkoliikenteen analysointi
+- **Thunder Client** - REST API -testaus
+- **WinSCP** - Tiedostojen siirto palvelimille
 ---
 
-## ✨ Ominaisuudet
+## 📊 Projektin Eteneminen Viikoittain
 
-### 📊 Datan keruu ja tallennus
+### Viikko 1: Projektin Perustus ja Työkalut
+**Toteutetut toiminnot:**
+- GitHun-repositoryn ja projektin luonti
+- Kanban-taulun käyttöönotto projektinhallintaan
+- Markdown-dokumentaation aloitus
+- nRF5340 Development Kit -alustan työkalujen asennus
+- Kiihtyvyysanturin testaus ja datan lukeminen
+- Git-versionhallinnan perusteet
+- Arkkitehtuurikaavion suunnittelu
 
-- ✅ BLE-sensoridata kerätään automaattisesti nRF5340 Dev Kit:stä
-- ✅ Tallennus Raspberry Pi:n MySQL-tietokantaan aikaleimalla
-- ✅ Tuki useille ryhmille (Group ID 1-999)
-- ✅ Automaattinen MAC-osoitteen ja laitetunnuksen tallennus
+**Opittua:**
+- Scrum-menetelmän perusteet
+- Git-työskentely tiimissä
+- Markdown-dokumentointi
+- Kanban-projektin hallinta
 
+### Viikko 2: BLE-kommunikaatio ja ADC-integraatio
 
-### 🌐 Web-palvelin
+**Toteutetut toiminnot:**
+- Raspbery Pi -asetukset ja verkkoliitäntä
+- Python-ohjelma BLE-datan vastaanottoon
+- MySQL-tietokantayhteys ja datan tallennus
+- Apache + PHP -asennus Ubuntu-palvelimelle
+- PHP-skripti datan hakemiseen tietokannasta
+- Netfilter-palomuurin konfigurointi
+- TCP-asiakasohjelma Pythonilla
 
-- ✅ Apache HTTP Server
-- ✅ PHP-pohjainen REST API
-- ✅ JSON ja CSV vastausformaatit
-- ✅ Custom 404-virhesivu
+**Opitut taidot:**
+- Bluetooth Low energy -kommunikaatio
+- MySQL-tietokantaoperaatiot Pythonilla
+- Web-palvelimen konfigurointi
+- Verkkoliikenteen kaappaus ja analysointi Wiresharkilla
+- SSH-avainpohjainen kirjautuminen (ed25519)
 
-### 🔍 Verkkoanalyysi
+### Viikko 3: Rajapinnat ja Protokollat
+**Toteutetut toiminnot:**
+- HTTP REST API -rajapintojen testaus
+- CSV-muotoisen datan käsittely
+- MySQL-yhteyden optimointi
+- Thunder Client -testit
+- GraphQL-kyselyt
+- Socket-pohjainen TCP-client (portti 20000)
 
-- ✅ Wireshark-pakettikaappaukset
-- ✅ TCP/HTTP/MySQL-protokollien analysointi
-- ✅ TCP 3-way handshake -dokumentaatio
-- ✅ HTTP GET/POST pyyntöjen tarkastelu
+**Opitut taidot:**
+- REST API -suunnittelu ja testaus
+- HTTP-protokollan yksityiskohdat
+- CSV -dataformaatti
+- Socket-ohjelmointi Pythonilla
+- API-testien automatisointi
 
----
+### Viikko 4: 
+**Toteutetut toiminnot**
 
-## 🛠️ Teknologiat
+**Opitut taidot:**
 
-### Backend
+### Viikko 5:
+**Toteutetut toiminnot**
 
-- **Python 3.x.x**: Asiakasohjelmat ja data-analyysit
-- **MySQL**: Relaaatiotietokanta
-- **Apache 2**: Web server
-- **PHP 8.x**: REST API backend
-- **Linux (Ubuntu)**: Palvelinkäyttöjärjestelmä
-- **Raspberry Pi OS**: IoT-gateway ja data logger
+**Opitut taidot:**
 
-### Tools
+###  Viikko 6:
+**Toteutetut toiminnot**
 
-- **Wireshark**: Verkkoliikenteen analysointi
-- **Visual Studio Code**: Kehitysympäristö
-- **Git/GitHub**: Versionhallinta
-- **SSH**: Palvelimen etähallinta
+**Opitut taidot**
 
-### Wireshark-analyysi
-
-Projekti sisältää verkkoliikenteen analyysin Wiresharkilla.
-
-**Analysoitavat protokollat:**
-
-1. **TCP 3-way handshake**
-   ```
-   tcp.flags.syn == 1
-   ```
-
-2. **HTTP-liikenne**
-   ```
-   tcp.port == 80
-   http
-   ```
-
-3. **MySQL-liikenne**
-   ```
-   tcp.port == 3306
-   mysql
-   ```
-
-   ### Verkkoanalyysi
-
-**Wireshark-suodattimet:**
-
-```
-# TCP 3-way handshake
-tcp.flags.syn == 1
-
-# HTTP-liikenne
-tcp.port == 80 && http
-
-# MySQL-liikenne
-tcp.port == 3306 && mysql
-
-# Socket API
-tcp.port == 20000
-```
-
----
-
-## 🐛 Tunnetut ongelmat ja rajoitukset
-
-### HTTP API
-- ⚠️ Ei autentikointia (kuka tahansa voi hakea dataa)
-- ⚠️ Ei HTTPS-tukea (salaamaton liikenne)
-
-### MySQL
-- ⚠️ Salasana plaintext config-tiedostossa
-- ⚠️ Ei SSL-yhteyttä
-
-### Socket API
-- ⚠️ Toimii vain palvelimen localhost:ista
-- ⚠️ Ei virheenkäsittelyä protokollatasolla
-
----
-
-## 📚 Projektivaiheet
-
-Projekti toteutettiin kolmessa vaiheessa:
-
-### 🔹 Vaihe 1: BLE-sensoridata ja tietokanta
-
-**Tavoite:** Kerätä BLE-sensoridata ja tallentaa MySQL-tietokantaan
-
-**Toteutus:**
-- ✅ Raspberry Pi:n asennus ja konfigurointi
-- ✅ MySQL-tietokannan luonti ja taulurakenne
-- ✅ nRF5340 Dev Kit BLE-sensorin kytkeminen
-- ✅ Python BLE-client datan vastaanottoon
-- ✅ Automaattinen tallennus tietokantaan
-
-**Tulokset:**
-- BLE-sensori lähettää dataa itse määritellyin väliajoin.
-- Data tallennetaan `rawdata`-tauluun
-- MAC-osoite ja aikaleima kirjataan automaattisesti
-
-**Dokumentaatio:**
-
----
-
-### 🔹 Vaihe 2: HTTP REST API ja verkkoanalyysi
-
-**Tavoite:** Tarjota data HTTP API:n kautta ja analysoida verkkoliikenne
-
-**Toteutus:**
-- ✅ Apache web serverin asennus Linux-palvelimelle
-- ✅ PHP REST API:n toteutus (JSON/CSV)
-- ✅ Python HTTP-client datan hakemiseen
-- ✅ Wireshark-pakettikaappaukset
-  - TCP 3-way handshake
-  - HTTP GET-pyynnöt
-  - HTTP-vastaukset
-- ✅ Custom 404-virheviesti (kissakuvat cataas.com:sta)
-
-**Tulokset:**
-- REST API tarjoaa datan kahdessa formaatissa
-- HTTP-protokollan analysointi Wiresharkilla
-- Dokumentaatio TCP/IP-pinosta
+### Viikko 7:
 
 
----
 
-### 🔹 Vaihe 3: MySQL-client ja TCP Socket API
-
-**Tavoite:** Suora tietokantayhteys ja matalan tason TCP-kommunikaatio
-
-**Toteutus:**
-- ✅ Python MySQL-client (PyMySQL)
-- ✅ SQL-kyselyt suoraan tietokantaan
-- ✅ TCP Socket API toteutus palvelimella
-- ✅ Python Socket-client
-- ✅ Wireshark MySQL-protokollan analysointi
-- ✅ Vertailu: HTTP vs MySQL vs Socket
-- ✅ Projektin dokumentointi ja viimeistely
-
-**Tulokset:**
-- Kolme eri tapaa hakea sama data
-- Suorituskyvyn ja kompleksisuuden vertailu
-- Kokonaisvaltainen verkkoprotokollien ymmärrys
-
-
----
-
-## 📊 Protokollien vertailu
-
-| Ominaisuus | HTTP API | MySQL Direct | TCP Socket |
-|------------|----------|--------------|------------|
-| **Nopeus** | Keskitaso | Nopein | Nopea |
-| **Helppous** | Helppokäyttöisin | Keskitaso | Vaativin |
-| **Turvallisuus** | Hyvä (HTTPS) | Hyvä (SSL) | Perus |
-| **Formaatti** | JSON/CSV | SQL rows | Raw text |
-| **Käyttötapaus** | Web/Mobile apps | Data-analytiikka | IoT/Embedded |
-| **Portti** | 80 | 3306 | 20000 |
 
 ---
 
@@ -266,21 +161,15 @@ Katso [LICENSE](LICENSE) lisätietoja varten.
 
 ## 🙏 Kiitokset
 
-- **Kurssin ohjaajat** - Ohjaus ja tekninen tuki
-- **Nordic Semiconductor** - nRF5340 Dev Kit dokumentaatio/BLE-koulutus
+Kiitos ohjaajille **Teemu Korpela** (t2946282) ja **Kari Jyrkkä** (kajyrkka) erinomaisesta ohjauksesta ja tuesta projektin aikana
+
+Kiitos myös Oulun ammattikorkeakoululle laitteistojen ja infrastruktuurin tarjoamisesta.
 
 ---
 
-## 📌 Status
+**Oulun ammattikorkeakoulu** | Tietoliikenteen sovellusprojekti 2025 | Ryhmä 15
 
- **Projekti kesken** (20.11.2025)
-
-Kolme vaihetta suoritettu:
-- ✅ Vaihe 1: BLE ja tietokanta
-- ✅ Vaihe 2: HTTP API ja Wireshark
-- ✅ Vaihe 3: MySQL client ja Socket API
-
----
+*Projekti suoritettu syksyllä 2025 osana 15 opintopisteen kokonaisuutta, joka sisälsi sovellusprojektin, viestinnän ja liiketoimintaosaamisen osa-alueet.
 
 <div align="center">
 
