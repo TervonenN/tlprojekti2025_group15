@@ -31,6 +31,14 @@ Projektin päätavoitteena on rakentaa toimiva IoT-järjestelmä, jossa:
 
 ---
 
+## 🖼️ Projektin Juliste (Posteri)
+
+Juliste tarjoaa tiivistetyn yleiskuvan projektin tavoitteista, menetelmistä ja keskeisistä tuloksista.
+
+![Posteri: Tietoliikenteen sovellusprojekti](docs/posteriTurtinenTervonen.png)
+
+---
+
 ## 🏗️ Järjestelmäarkkitehtuuri
 
 ![Arkkitehtuurikaavio](docs/arkkitehtuuri2.png)
