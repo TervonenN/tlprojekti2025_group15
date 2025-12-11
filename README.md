@@ -34,7 +34,7 @@ Projektin päätavoitteena on rakentaa toimiva IoT-järjestelmä, jossa:
 
 ---
 
-## 🖼️ Projektin Juliste (Posteri)
+## 🖼️ Posteri
 
 Juliste tarjoaa tiivistetyn yleiskuvan projektin tavoitteista, menetelmistä ja keskeisistä tuloksista.
 
@@ -46,7 +46,6 @@ Juliste tarjoaa tiivistetyn yleiskuvan projektin tavoitteista, menetelmistä ja 
 
 ![Arkkitehtuurikaavio](docs/arkkitehtuuri2.png)
 
-### Komponentit
 
 ### Komponentit
 
@@ -220,14 +219,17 @@ Juliste tarjoaa tiivistetyn yleiskuvan projektin tavoitteista, menetelmistä ja 
 ### Confusion Matrix
 
 ![Confusion Matrix w/ Minimal Movement](docs/confusion_matrix_lessmovement.png)
+Ensimmäisessä mittauksessa laite oli paikallaan yhdessä asennossa sadan näytteen ajan, jonka jälkeen laite käännettiin uuteen asentoon ja otettiin taas sata näytettä. Tämä toistettiin kaikkiin kuuteen suuntaan.
+
 ![Confusion Matrix w/ More Movement](docs/confusionmatrix_matrix_moremovement.png)
+Toisessa mittauksessa laite oli yhdessä asennossa sadan näytteen ajan, mutta laitetta heilutettiin ja ravistettiin voimakkaasti, jonka jälkeen asentoa vaihdettiin ja sama toistettiin kaikkiin kuuteen suuntaan.
 
 ## 👥 Tiimi
 
 **Group 15**
 
-- **Niko Tervonen** - TervonenN
-- **Meri-Tuulia Turtinen** - m351351
+- **Niko Tervonen** - [TervonenN](https://github.com/TervonenN)
+- **Meri-Tuulia Turtinen** - [m351351](https://github.com/m351351)
 
 **Kurssi:** Tietoliikenteen sovellusprojekti 2025  
 **Toteutusaika:** Syksy 2025
@@ -245,7 +247,7 @@ Katso [LICENSE](LICENSE) lisätietoja varten.
 
 ## 🙏 Kiitokset
 
-Kiitos ohjaajille **Teemu Korpela** (t2946282) ja **Kari Jyrkkä** (kajyrkka) erinomaisesta ohjauksesta ja tuesta projektin aikana
+Kiitos ohjaajille **Teemu Korpela** ([t2946282](https://github.com/t2946282)) ja **Kari Jyrkkä** ([kajyrkka](https://github.com/kajyrkka)) erinomaisesta ohjauksesta ja tuesta projektin aikana
 
 Kiitos myös Oulun ammattikorkeakoululle laitteistojen ja infrastruktuurin tarjoamisesta.
 
