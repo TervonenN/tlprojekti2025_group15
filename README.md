@@ -4,16 +4,18 @@
 
 [![Python](https://img.shields.io/badge/Python-3.12-blue.svg)](https://www.python.org/)
 [![License](https://img.shields.io/badge/License-MIT-green.svg)](LICENSE)
-[![Maintenance](https://img.shields.io/badge/Maintained-Yes-brightgreen.svg)](https://github.com/TervonenN/tlprojekti2025_group15)
+[![OAMK](https://img.shields.io/badge/OAMK-2025-orange.svg)](https://www.oamk.fi/)
 
 ## 📋 Sisällysluettelo
 
-- [Yleiskatsaus](#yleiskatsaus)
-- [Järjestelmäarkkitehtuuri](#järjestelmäarkkitehtuuri)
-- [Ominaisuudet](#ominaisuudet)
-- [Teknologiat](#teknologiat)
-- [Projektivaiheet](#projektivaiheet)
-- [Tiimi](#tiimi)
+- [Yleiskatsaus](#-yleiskatsaus)
+- [Järjestelmäarkkitehtuuri](#-järjestelmäarkkitehtuuri)
+- [Teknologiat](#-teknologiat-ja-työkalut)
+- [Projektivaiheet](#-projektin-eteneminen-viikoittain)
+- [K-means-luokittelu](#-k-means-luokittelu)
+- [Tulokset](#-tulokset)
+- [Tiimi](#-tiimi)
+- [Lisenssi](#-lisenssi)
 
 ---
 
@@ -27,7 +29,8 @@ Projektin päätavoitteena on rakentaa toimiva IoT-järjestelmä, jossa:
 - Data välitetään **Bluetooth Low Energy (BLE)** - yhteydellä Raspberry Pi:lle.
 - Raspberry Pi tallentaa datan **MYSQL-tietokantaan**
 - **K-means-koneoppimisalgoritmi** opetetaan luokittelemaan laitteen suunta
-- Opetettu malli siirretään takaisin mikrokontrollerille reaaliaikaiseen päättelyyn (Confusion Matrix)
+- Opetettu malli siirretään takaisin mikrokontrollerille reaaliaikaiseen päättelyyn
+- Mallin tarkkuus arvioidaan Confusion Matrix -analyysillä
 
 ---
 
@@ -45,6 +48,18 @@ Juliste tarjoaa tiivistetyn yleiskuvan projektin tavoitteista, menetelmistä ja 
 
 ### Komponentit
 
+### Komponentit
+
+| Komponentti | Rooli | Teknologia |
+|-------------|-------|------------|
+| **nRF5340 Dev Kit** | Sensorilaite | Zephyr RTOS, C, BLE |
+| **Raspberry Pi v3** | IoT Gateway | Python, Bleak |
+| **MySQL Server** | Tietokanta | MySQL 8.0 |
+| **Linux Server** | Web-palvelin | Apache, PHP |
+| **Client Laptop** | Kehitys & ML | Python, NumPy |
+
+---
+
 ## 🔧 Teknologiat ja Työkalut
 
 ### Laitteisto
@@ -60,9 +75,10 @@ Juliste tarjoaa tiivistetyn yleiskuvan projektin tavoitteista, menetelmistä ja 
   - `mysql-connector-python` - Tietokantayhteys
   - `numpy` - Matriisioperaatiot ja K-means-algoritmi
   - `matplotlib` - Visualisointi
+  - `bleak` - BLE-kommunikaatio (Nordic-yhteensopiva)
 - **MySQL** - Relaatiotietokannat
 - **Apache + PHP** - Web-palvelin ja HTTP-rajapinnat
-- **GitHub** - Versionhallinta ja projektin dokumentointi
+- **Git & GitHub** - Versionhallinta ja projektin dokumentointi
 
 ### Kehitystyökalut
 - **Visual Studio Code** - Pääasiallinen kehitysympäristö
@@ -76,75 +92,135 @@ Juliste tarjoaa tiivistetyn yleiskuvan projektin tavoitteista, menetelmistä ja 
 
 ### Viikko 1: Projektin Perustus ja Työkalut
 **Toteutetut toiminnot:**
-- GitHun-repositoryn ja projektin luonti
-- Kanban-taulun käyttöönotto projektinhallintaan
-- Markdown-dokumentaation aloitus
-- nRF5340 Development Kit -alustan työkalujen asennus
-- Kiihtyvyysanturin testaus ja datan lukeminen
-- Git-versionhallinnan perusteet
-- Arkkitehtuurikaavion suunnittelu
+- GitHub-repositoryn ja Kanban-taulun käyttöönotto
+- nRF5340 Development Kit -alustan asennus ja kiihtyvyysanturin testaus
+- Git-versionhallinnan perusteet ja arkkitehtuurikaavion suunnittelu
+- Linux-alkeet (ssh, cmhmod, palomuurit jne.)
 
-**Opittua:**
-- Scrum-menetelmän perusteet
-- Git-työskentely tiimissä
+**Opitut taidot:**
+- Scrum-menetelmä
+- Git-työskentely
 - Markdown-dokumentointi
-- Kanban-projektin hallinta
+- Kanban
+
+---
 
 ### Viikko 2: BLE-kommunikaatio ja ADC-integraatio
 
 **Toteutetut toiminnot:**
-- Raspbery Pi -asetukset ja verkkoliitäntä
-- Python-ohjelma BLE-datan vastaanottoon
-- MySQL-tietokantayhteys ja datan tallennus
-- Apache + PHP -asennus Ubuntu-palvelimelle
-- PHP-skripti datan hakemiseen tietokannasta
-- Netfilter-palomuurin konfigurointi
-- TCP-asiakasohjelma Pythonilla
+- WorkingADCSolution-ohjelman kääntäminen ja ADC-lukeminen
+- Nordic Academy BLE Fundamentals -kurssin sertifikaatti
+- nRF Connect -sovellus ja BLE GATT -palveluiden toteutus
+- ADC + BLE -integraatio
 
 **Opitut taidot:**
-- Bluetooth Low energy -kommunikaatio
-- MySQL-tietokantaoperaatiot Pythonilla
-- Web-palvelimen konfigurointi
-- Verkkoliikenteen kaappaus ja analysointi Wiresharkilla
-- SSH-avainpohjainen kirjautuminen (ed25519)
-
-### Viikko 3: Rajapinnat ja Protokollat
-**Toteutetut toiminnot:**
-- HTTP REST API -rajapintojen testaus
-- CSV-muotoisen datan käsittely
-- MySQL-yhteyden optimointi
-- Thunder Client -testit
-- GraphQL-kyselyt
-- Socket-pohjainen TCP-client (portti 20000)
-
-**Opitut taidot:**
-- REST API -suunnittelu ja testaus
-- HTTP-protokollan yksityiskohdat
-- CSV -dataformaatti
-- Socket-ohjelmointi Pythonilla
-- API-testien automatisointi
-
-### Viikko 4: 
-**Toteutetut toiminnot**
-
-**Opitut taidot:**
-
-### Viikko 5:
-**Toteutetut toiminnot**
-
-**Opitut taidot:**
-
-###  Viikko 6:
-**Toteutetut toiminnot**
-
-**Opitut taidot**
-
-### Viikko 7:
-
-
-
+- BLE-protokolla (GATT, Services)
+- nRF Connect
+- ADC-integraatio
+- Zephyr RTOS
 
 ---
+
+### Viikko 3: Tiedonsiirto, Palvelimet ja Rajapinnat
+
+**Toteutetut toiminnot:**
+- Raspberry Pi + Python BLE-client (Bleak) -> MySQL
+- Apache + PHP -asennus ja Netfilter-palomuuri Linux-palvelimelle
+- TCP-asiakasohjelmat: HTTP-client, MySQL Direct, Socket (port 20000)
+- Wireshark-analyysi (TCP, HTTP, MySQL)
+
+**Opitut taidot:**
+- BLE-kommunikaatio (Bleak)
+- MySQL-operaatiot
+- Web-palvelinkonfigurointi
+- Wireshark
+- SSH ed25519
+
+---
+
+### Viikko 4: Lisenssit ja REST API
+
+**Toteutetut toiminnot**
+- Ohjelmistolisenssivertailu ja MIT-lisenssin valinta projektille
+- Apache ErrorDocument -konfiguraatio (custom 404 + cataas.com API)
+- Thunder Client -testaus (Ilmatieteenlaitos, Oulun liikenne GraphQL)
+- Python-skriptit (CSV, MYSQL, Socket)
+
+**Opitut taidot:**
+- Lisenssimallit
+- HTTP-virhekäsittely
+- API-testaus
+
+### Viikko 5: K-means-opetus Pythonilla
+
+**Toteutetut toiminnot**
+- Datan haku ja esikäsittely
+- K-means-algoritmin toteutus NumPyllä
+- Iteratiivinne optimointi ja konvergenssin tarkistus
+- Keskipisteiden vienti C-koodiksi (`keskipisteet.h`)
+
+**Opitut taidot:**
+- K-means-algoritmi (ilman scikit)
+- NumPy-vektorointi
+- Mallin vienti C:hen
+
+**Miksi itse?** Syvempi ymmärrys, täysi kontrolli sekä kevyempi ratkaisu
+
+---
+
+###  Viikko 6: Mallin Implementointi Laitteelle
+
+**Toteutetut toiminnot**
+- GitHub-repon kloonaus ja `keskipisteet.h`-integrointi
+- `confusion.c`-moduulin täydentäminen (etäisyyslaskenta, K-means-päättely)
+- 600 mittauksen suoritus (100 per suunta 0-5)
+- Confusion matrix -laskenta Python-skriptillä
+
+**Opitut taidot**
+- Edge computing
+- Mallin optimointi mikrokontrollerille
+- Confusion matrix
+
+---
+
+### Viikko 7: Viimeistely ja Dokumentointi
+- Datan visualisointi (K-means-klusterit 3D, confusion matrix heatmap)
+- Projektiposteri
+- Loppuesitys Scrum-tiimille
+- GitHub-dokumentaation viimeistely
+
+**Opitut taidot:**
+- Posterin suunnittelu
+- Tekninen esitystaito
+- Kattava dokumentointi
+
+---
+
+## 🤖 K-means-luokittelu
+
+### Algoritmin Toiminta
+
+**K-means** on ohjaamaton koneoppimisalgoritmi, joka ryhmittelee datapisteet klusteriksi niiden samankaltaisuuden perusteella. Algoritmi etsii 6 keskipistettä 3D-avaruudessa (x, y, z), jotka parhaiten edustavat kutakin suuntaa.
+
+**Toteutus:**
+
+1. **Opetus (Python)**: Kerättiin kiihtyvyysanturidataa ja opetettiin K-means-algoritmi NumPy-kirjastolla. "Tyhjästä" ilman scikit-learn -kirjastoja saavuttaaksemme syvemmän ymmärryksen.
+
+2. **Mallin vienti**: Opetetut 6 keskipistettä vietiin C-kieliseksi taulukoksi (`keskipisteet.h` -tiedosto), joka voidaan sisällyttää suoraan mikrokontrollerin koodiin.
+
+3. **Päättely (nRF5340)**: Mikrokontrolleri laskee jokaisen uuden mittauksen (x, y, z) etäisyyden kaikkiin 6 keskipisteeseen. Lähin keskipiste määrittää ennustetun suunnan.
+
+### Klustereiden Visualisointi
+![K-means Klusterit 3D](docs/kmeans3D.png)
+
+*3D-visualisointi opetetuista klustereista. Jokainen väri edustaa yhtä suuntaa ja punaiset X-merkit laskettuja keskipisteitä.
+
+## 📈 Tulokset
+
+### Confusion Matrix
+
+![Confusion Matrix w/ Minimal Movement](docs/confusion_matrix_lessmovement.png)
+![Confusion Matrix w/ More Movement](docs/confusionmatrix_matrix_moremovement.png)
 
 ## 👥 Tiimi
 
