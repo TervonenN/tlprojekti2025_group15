@@ -53,7 +53,7 @@ Juliste tarjoaa tiivistetyn yleiskuvan projektin tavoitteista, menetelmistä ja 
 |-------------|-------|------------|
 | **nRF5340 Dev Kit** | Sensorilaite | Zephyr RTOS, C, BLE |
 | **Raspberry Pi v3** | IoT Gateway | Python, Bleak |
-| **MySQL Server** | Tietokanta | MySQL 8.0 |
+| **MySQL Server** | Tietokanta | MySQL |
 | **Linux Server** | Web-palvelin | Apache, PHP |
 | **Client Laptop** | Kehitys & ML | Python, NumPy |
 
