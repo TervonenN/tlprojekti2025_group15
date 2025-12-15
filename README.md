@@ -94,7 +94,7 @@ Juliste tarjoaa tiivistetyn yleiskuvan projektin tavoitteista, menetelmistä ja 
 - GitHub-repositoryn ja Kanban-taulun käyttöönotto
 - nRF5340 Development Kit -alustan asennus ja kiihtyvyysanturin testaus
 - Git-versionhallinnan perusteet ja arkkitehtuurikaavion suunnittelu
-- Linux-alkeet (ssh, cmhmod, palomuurit jne.)
+- Linux-alkeet (ssh, chmod, palomuurit jne.)
 
 **Opitut taidot:**
 - Scrum-menetelmä
